@@ -44,22 +44,29 @@ export function LibraryCard() {
             <div className="text-sm text-[var(--accent-rose)] px-6">Failed to load library data</div>
           ) : data?.popular_books ? (
             data.popular_books.map((book, i) => {
-              const colors = [
-                "bg-neutral-800/80 border-neutral-700/50",
-                "bg-neutral-800/60 border-neutral-700/50",
-                "bg-neutral-900/80 border-neutral-800/50",
+              const coverStyles = [
+                "bg-gradient-to-br from-indigo-500 via-purple-500 to-fuchsia-600 border-indigo-400/30",
+                "bg-gradient-to-br from-emerald-400 via-teal-500 to-cyan-600 border-emerald-400/30",
+                "bg-gradient-to-br from-orange-400 via-rose-500 to-pink-600 border-orange-400/30",
+                "bg-gradient-to-br from-blue-500 via-indigo-600 to-violet-700 border-blue-400/30",
+                "bg-gradient-to-br from-pink-500 via-rose-500 to-red-600 border-pink-400/30",
               ];
-              const theme = colors[book.title.length % colors.length];
+              const theme = coverStyles[book.title.length % coverStyles.length];
 
               return (
-                <div key={book.id} className="flex-shrink-0 w-28 snap-center group cursor-pointer">
+                <div key={book.id} className="flex-shrink-0 w-32 snap-center group cursor-pointer">
                   {/* Book Cover */}
-                  <div className={`relative h-36 rounded-md border shadow-sm transition-transform duration-300 group-hover:-translate-y-1 group-hover:bg-neutral-800 ${theme} p-3 flex flex-col justify-between overflow-hidden`}>
-                    {/* Minimalist Spine highlight */}
-                    <div className="absolute top-0 bottom-0 left-0 w-0.5 bg-white/5" />
+                  <div className={`relative h-44 rounded-lg shadow-[0_4px_12px_rgba(0,0,0,0.5)] transition-all duration-300 group-hover:-translate-y-1.5 group-hover:shadow-[0_8px_20px_rgba(0,0,0,0.6)] group-hover:brightness-110 ${theme} p-3 flex flex-col justify-between overflow-hidden`}>
+                    {/* Spine overlay */}
+                    <div className="absolute top-0 bottom-0 left-0 w-2 bg-gradient-to-r from-black/40 to-transparent" />
+                    {/* Dark gradient at bottom for text contrast */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-white/10" />
                     
-                    <h4 className="text-[11px] font-medium text-neutral-200 leading-tight mt-1 z-10">{book.title}</h4>
-                    <Book className="w-4 h-4 text-neutral-500 self-end mb-1 z-10" />
+                    <h4 className="text-[12px] font-bold text-white leading-tight mt-1 z-10 drop-shadow-md line-clamp-4">{book.title}</h4>
+                    <div className="flex justify-between items-end z-10 w-full mt-2">
+                      <span className="text-[9px] text-white/80 font-medium tracking-wider uppercase truncate max-w-[70%] drop-shadow-sm">{book.category || 'Book'}</span>
+                      <Book className="w-4 h-4 text-white/60 drop-shadow-sm flex-shrink-0" />
+                    </div>
                   </div>
                   
                   {/* Meta */}
