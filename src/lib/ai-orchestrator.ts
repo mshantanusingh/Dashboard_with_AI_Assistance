@@ -107,7 +107,7 @@ export async function orchestrateChat(
   // Step 3: Call Gemini with function-calling enabled
   const genAI = new GoogleGenerativeAI(apiKey);
   const model = genAI.getGenerativeModel({
-    model: "gemini-1.5-flash-latest",
+    model: "gemini-flash-lite-latest",
     systemInstruction: `You are CampusAI, an intelligent assistant for a university campus. You help students find information about the library, cafeteria menus, campus events, and academic schedules.
 
 You have access to real-time data from campus systems through tools. ALWAYS use the appropriate tools to answer questions — never make up information.
