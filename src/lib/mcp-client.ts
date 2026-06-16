@@ -86,7 +86,7 @@ export async function checkServerHealth(
  * Check health of all MCP servers in parallel.
  */
 export async function checkAllServersHealth(): Promise<ServerStatus[]> {
-  return Promise.all(MCP_SERVERS.map(checkServerHealth));
+  return Promise.all(MCP_SERVERS.map(server => checkServerHealth(server)));
 }
 
 /**
