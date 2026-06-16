@@ -3,10 +3,25 @@ from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
 import os
 
+import sys
+
+def clear_mcp_modules():
+    for mod in ["tools", "schemas", "data"]:
+        if mod in sys.modules:
+            del sys.modules[mod]
+
 # Import all individual FastAPI apps from our Vercel API routes
+# We must clear the cached modules between imports because they all use generic names (tools.py, data.py)
+clear_mcp_modules()
 from api.academics import app as academics_app
+
+clear_mcp_modules()
 from api.library import app as library_app
+
+clear_mcp_modules()
 from api.cafeteria import app as cafeteria_app
+
+clear_mcp_modules()
 from api.events import app as events_app
 
 app = FastAPI(title="CampusAI MCP Servers - Unified Backend")
