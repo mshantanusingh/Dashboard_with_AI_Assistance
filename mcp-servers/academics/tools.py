@@ -53,13 +53,17 @@ def register_tool(name: str, description: str, parameters: dict):
                 "type": "string",
                 "description": "Department name (default: CSE)",
                 "default": "CSE"
+            },
+            "student_id": {
+                "type": "string",
+                "description": "Optional student ID for personalized schedule (e.g. STU-101)"
             }
         },
         "required": []
     }
 )
-def tool_get_class_schedule(day: str | None = None, department: str | None = None) -> dict:
-    schedule = get_class_schedule(department=department, day=day)
+def tool_get_class_schedule(day: str | None = None, department: str | None = None, student_id: str | None = None) -> dict:
+    schedule = get_class_schedule(department=department, day=day, student_id=student_id)
     return {
         "day_filter": day,
         "department": department or "CSE",

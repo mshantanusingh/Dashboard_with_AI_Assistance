@@ -1,6 +1,7 @@
 "use client";
 
 import { useMCPData } from "@/hooks/useMCPData";
+import { usePersona } from "@/context/PersonaContext";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/Card";
 import { Badge } from "@/components/ui/Badge";
 import { Skeleton } from "@/components/ui/Skeleton";
@@ -8,10 +9,12 @@ import { Book, Library } from "lucide-react";
 import { BookInfo } from "@/lib/types";
 
 export function LibraryCard() {
+  const { activePersona } = usePersona();
+  
   const { data, loading, error } = useMCPData<{ popular_books: BookInfo[] }>({
     server: "library",
     tool: "get_popular_books",
-    parameters: { limit: 3 },
+    parameters: { limit: 3, student_id: activePersona.id },
   });
 
   return (

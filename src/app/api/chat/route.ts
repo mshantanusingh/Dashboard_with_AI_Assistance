@@ -10,7 +10,7 @@ import { orchestrateChat } from "@/lib/ai-orchestrator";
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { message, history } = body;
+    const { message, history, persona } = body;
 
     if (!message || typeof message !== "string") {
       return NextResponse.json(
@@ -33,7 +33,7 @@ export async function POST(request: NextRequest) {
 
     const conversationHistory = Array.isArray(history) ? history : [];
 
-    const result = await orchestrateChat(message, conversationHistory, apiKey);
+    const result = await orchestrateChat(message, conversationHistory, apiKey, persona);
 
     return NextResponse.json(result);
   } catch (error) {

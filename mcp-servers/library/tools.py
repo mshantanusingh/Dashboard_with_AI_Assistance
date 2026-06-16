@@ -126,14 +126,18 @@ def tool_check_availability(title: str) -> dict:
                 "type": "integer",
                 "description": "Maximum number of books to return (default: 5)",
                 "default": 5
+            },
+            "student_id": {
+                "type": "string",
+                "description": "Optional student ID for personalized recommendations (e.g. STU-101)"
             }
         },
         "required": []
     }
 )
-def tool_get_popular_books(limit: int = 5) -> dict:
+def tool_get_popular_books(limit: int = 5, student_id: str | None = None) -> dict:
     """Get popular books."""
-    books = get_popular_books(limit)
+    books = get_popular_books(limit, student_id)
     return {
         "total": len(books),
         "popular_books": books,

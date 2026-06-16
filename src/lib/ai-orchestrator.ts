@@ -84,7 +84,8 @@ function mcpSchemaToGemini(tool: MCPToolSchema, serverName: string): FunctionDec
 export async function orchestrateChat(
   userMessage: string,
   conversationHistory: { role: string; content: string }[],
-  apiKey: string
+  apiKey: string,
+  persona?: any
 ): Promise<OrchestratorResponse> {
   // Step 1: Discover all available tools from MCP servers
   const toolsMap = await discoverAllTools();
@@ -106,13 +107,16 @@ export async function orchestrateChat(
 
   // Step 3: Call Gemini with function-calling enabled
   const genAI = new GoogleGenerativeAI(apiKey);
+  
+  let systemPrompt = `You are CampusAI, an intelligent assistant for a university campus. You help students find information about the library, cafeteria menus, campus events, and academic schedules.`;
+  
+  if (persona) {
+    systemPrompt += `\n\n[USER CONTEXT] You are currently talking to ${persona.name}. Their role is ${persona.role} in the ${persona.department} department (${persona.year}). Their student_id is ${persona.id}. Use this student_id when calling tools that support personalized responses!`;
+  }
+
   const model = genAI.getGenerativeModel({
     model: "gemini-flash-lite-latest",
-    systemInstruction: `You are CampusAI, an intelligent assistant for a university campus. You help students find information about the library, cafeteria menus, campus events, and academic schedules.
-
-You have access to real-time data from campus systems through tools. ALWAYS use the appropriate tools to answer questions — never make up information.
-
-When multiple tools could be relevant, call ALL of them to give a comprehensive answer.
+    systemInstruction: systemPrompt + `\n\nWhen multiple tools could be relevant, call ALL of them to give a comprehensive answer.
 
 Guidelines:
 - Be friendly, concise, and helpful

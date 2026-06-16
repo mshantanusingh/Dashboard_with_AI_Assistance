@@ -317,9 +317,18 @@ ACADEMIC_CALENDAR: list[AcademicCalendarEvent] = [
 
 # ─── Data Access Functions ───────────────────────────────────────────────────────
 
-def get_class_schedule(department: str | None = None, year: int | None = None, day: str | None = None) -> list[dict]:
-    """Get class schedule. Optionally filter by day."""
+def get_class_schedule(department: str | None = None, year: int | None = None, day: str | None = None, student_id: str | None = None) -> list[dict]:
+    """Get class schedule. Optionally filter by day and student_id."""
     results = [s.model_dump() for s in CLASS_SCHEDULE]
+    
+    # Mock Personalization
+    if student_id == "STU-101":
+        # Freshman CS - only keep 100/200 level courses
+        results = [s for s in results if "10" in s["course_code"] or "20" in s["course_code"]]
+    elif student_id == "STU-404":
+        # Senior Math - only keep 300/400 level courses
+        results = [s for s in results if "30" in s["course_code"] or "40" in s["course_code"]]
+
     if day:
         day_lower = day.lower()
         results = [s for s in results if s["day"].lower() == day_lower]

@@ -1,6 +1,7 @@
 "use client";
 
 import { useMCPData } from "@/hooks/useMCPData";
+import { usePersona } from "@/context/PersonaContext";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/Card";
 import { Badge } from "@/components/ui/Badge";
 import { Skeleton } from "@/components/ui/Skeleton";
@@ -8,11 +9,12 @@ import { GraduationCap, MapPin, Clock } from "lucide-react";
 import { ClassInfo } from "@/lib/types";
 
 export function AcademicsCard() {
+  const { activePersona } = usePersona();
   const currentDay = new Date().toLocaleDateString('en-US', { weekday: 'long' });
   const { data, loading, error } = useMCPData<{ schedule: ClassInfo[] }>({
     server: "academics",
     tool: "get_class_schedule",
-    parameters: { day: currentDay },
+    parameters: { day: currentDay, student_id: activePersona.id },
   });
 
   return (

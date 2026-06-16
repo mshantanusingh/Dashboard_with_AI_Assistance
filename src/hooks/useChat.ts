@@ -1,7 +1,9 @@
 import { useState } from "react";
 import { ChatMessage } from "@/lib/types";
+import { usePersona } from "@/context/PersonaContext";
 
 export function useChat() {
+  const { activePersona } = usePersona();
   const [messages, setMessages] = useState<ChatMessage[]>([{
     id: "welcome",
     role: "assistant",
@@ -32,7 +34,7 @@ export function useChat() {
       const res = await fetch("/api/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message: content, history: historyForApi }),
+        body: JSON.stringify({ message: content, history: historyForApi, persona: activePersona }),
       });
 
       const data = await res.json();

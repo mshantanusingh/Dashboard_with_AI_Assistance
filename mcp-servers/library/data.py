@@ -438,10 +438,20 @@ def check_availability(title: str) -> dict | None:
     return None
 
 
-def get_popular_books(limit: int = 5) -> list[dict]:
+def get_popular_books(limit: int = 5, student_id: str | None = None) -> list[dict]:
     """Get popular books — simulated by returning books with fewest available copies."""
+    books_to_sort = [b for b in BOOKS if b.total_copies > 0]
+    
+    # Mock Personalization
+    if student_id == "STU-101":
+        # Freshman CS - recommend algorithms and C
+        books_to_sort = [b for b in books_to_sort if "CS" in b.id]
+    elif student_id == "STU-404":
+        # Senior Math - recommend Math and Physics
+        books_to_sort = [b for b in books_to_sort if "MA" in b.id or "PH" in b.id]
+
     sorted_books = sorted(
-        [b for b in BOOKS if b.total_copies > 0],
+        books_to_sort,
         key=lambda b: b.available_copies / b.total_copies
     )
     return [b.model_dump() for b in sorted_books[:limit]]
