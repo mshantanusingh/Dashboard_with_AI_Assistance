@@ -65,36 +65,23 @@ export function ChatWidget() {
         </div>
       </button>
 
-      {/* Full Screen Command Palette Overlay */}
+      {/* Floating Chat Window */}
       <div
         className={cn(
-          "fixed inset-0 z-50 flex items-start justify-center pt-[10vh] px-4 transition-all duration-300",
-          isOpen ? "opacity-100" : "opacity-0 pointer-events-none"
+          "fixed z-50 bottom-24 right-8 w-full max-w-[420px] h-[600px] max-h-[calc(100vh-120px)] bg-[#0A0A0A]/95 backdrop-blur-xl flex flex-col overflow-hidden transition-all duration-300 border border-white/10 shadow-2xl rounded-2xl origin-bottom-right",
+          isOpen ? "scale-100 opacity-100" : "scale-95 opacity-0 pointer-events-none"
         )}
       >
-        {/* Blurred Backdrop */}
-        <div 
-          className="absolute inset-0 bg-black/40 backdrop-blur-sm"
-          onClick={() => setIsOpen(false)}
-        />
-
-        {/* Modal Window */}
-        <div
-          className={cn(
-            "relative w-full max-w-3xl h-[70vh] min-h-[500px] glass-panel-extreme flex flex-col overflow-hidden transition-all duration-300 shadow-[0_0_100px_rgba(99,102,241,0.15)]",
-            isOpen ? "scale-100 translate-y-0" : "scale-95 translate-y-4"
-          )}
-        >
           {/* Header */}
-          <div className="flex items-center justify-between px-6 py-4 border-b border-white/10 bg-white/5">
+          <div className="flex items-center justify-between px-5 py-4 border-b border-white/5 bg-white/[0.02]">
             <div className="flex items-center gap-3">
-              <div className="w-8 h-8 rounded-full bg-gradient-to-br from-indigo-500 to-cyan-400 flex items-center justify-center shadow-lg shadow-indigo-500/20">
-                <Sparkles className="w-4 h-4 text-white" />
+              <div className="w-8 h-8 rounded-full bg-cyan-500/20 flex items-center justify-center border border-cyan-500/30">
+                <Sparkles className="w-4 h-4 text-cyan-400" />
               </div>
               <div>
-                <h3 className="font-semibold text-sm text-white">CampusAI Command Center</h3>
-                <p className="text-[10px] text-[var(--text-muted)] flex items-center gap-1.5 uppercase tracking-widest mt-0.5">
-                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.6)]"></span> Online
+                <h3 className="font-medium text-sm text-neutral-200">CampusAI</h3>
+                <p className="text-[10px] text-neutral-500 flex items-center gap-1.5 uppercase tracking-widest mt-0.5">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> Online
                 </p>
               </div>
             </div>
@@ -136,13 +123,13 @@ export function ChatWidget() {
           </div>
 
           {/* Input Area */}
-          <div className="p-4 bg-black/40 backdrop-blur-md border-t border-white/10">
+          <div className="p-4 bg-[#0A0A0A] border-t border-white/5">
             {/* Quick Actions */}
             {messages.length <= 2 && !isLoading && (
-              <div className="flex gap-2 overflow-x-auto no-scrollbar pb-3 mb-1">
-                <button onClick={() => handleQuickAction("What's for dinner tonight?")} className="chip">🍽️ Dinner Menu</button>
-                <button onClick={() => handleQuickAction("Are there any events happening right now?")} className="chip">📅 Live Events</button>
-                <button onClick={() => handleQuickAction("Check if 'Database System Concepts' is available")} className="chip">📚 Find Book</button>
+              <div className="flex flex-wrap gap-2 pb-3 mb-1">
+                <button onClick={() => handleQuickAction("What's for dinner tonight?")} className="text-xs px-3 py-1.5 rounded-lg bg-neutral-900 border border-neutral-800 text-neutral-300 hover:bg-neutral-800 hover:text-white transition-colors">🍽️ Dinner Menu</button>
+                <button onClick={() => handleQuickAction("Are there any events happening right now?")} className="text-xs px-3 py-1.5 rounded-lg bg-neutral-900 border border-neutral-800 text-neutral-300 hover:bg-neutral-800 hover:text-white transition-colors">📅 Live Events</button>
+                <button onClick={() => handleQuickAction("Check if 'Database System Concepts' is available")} className="text-xs px-3 py-1.5 rounded-lg bg-neutral-900 border border-neutral-800 text-neutral-300 hover:bg-neutral-800 hover:text-white transition-colors">📚 Find Book</button>
               </div>
             )}
             
@@ -151,21 +138,20 @@ export function ChatWidget() {
                 ref={inputRef}
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
-                placeholder="Ask CampusAI anything..."
-                className="w-full bg-white/5 border border-white/10 rounded-xl py-4 pl-5 pr-14 text-base focus:outline-none focus:border-indigo-500/50 focus:bg-white/10 transition-all text-white placeholder:text-white/30"
+                placeholder="Message CampusAI..."
+                className="w-full bg-white/[0.03] border border-white/10 rounded-xl py-3.5 pl-4 pr-12 text-sm focus:outline-none focus:border-cyan-500/50 focus:bg-white/[0.05] transition-all text-neutral-200 placeholder:text-neutral-500"
                 autoComplete="off"
               />
               <button
                 type="submit"
                 disabled={!input.trim() || isLoading}
-                className="absolute right-2 p-2.5 bg-white text-black rounded-lg hover:bg-gray-200 disabled:opacity-20 disabled:hover:bg-white transition-all"
+                className="absolute right-2 p-2 bg-white text-black rounded-lg hover:bg-neutral-200 disabled:opacity-20 disabled:hover:bg-white transition-all flex items-center justify-center"
               >
                 <Send className="w-4 h-4" />
               </button>
             </form>
           </div>
         </div>
-      </div>
     </>
   );
 }
