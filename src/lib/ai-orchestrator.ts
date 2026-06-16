@@ -85,10 +85,11 @@ export async function orchestrateChat(
   userMessage: string,
   conversationHistory: { role: string; content: string }[],
   apiKey: string,
-  persona?: any
+  persona?: any,
+  origin?: string
 ): Promise<OrchestratorResponse> {
   // Step 1: Discover all available tools from MCP servers
-  const toolsMap = await discoverAllTools();
+  const toolsMap = await discoverAllTools(origin);
 
   // Step 2: Build Gemini function declarations from MCP tool schemas
   const functionDeclarations: FunctionDeclaration[] = [];
@@ -184,7 +185,8 @@ Guidelines:
         const execResult = await executeTool(
           mappedTool.server,
           mappedTool.toolName,
-          params
+          params,
+          origin
         );
 
         toolCalls.push({

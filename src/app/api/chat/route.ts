@@ -32,8 +32,11 @@ export async function POST(request: NextRequest) {
     }
 
     const conversationHistory = Array.isArray(history) ? history : [];
+    
+    // Extract base URL from the request for reliable server-side fetching
+    const origin = new URL(request.url).origin;
 
-    const result = await orchestrateChat(message, conversationHistory, apiKey, persona);
+    const result = await orchestrateChat(message, conversationHistory, apiKey, persona, origin);
 
     return NextResponse.json(result);
   } catch (error) {

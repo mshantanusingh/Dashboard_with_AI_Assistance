@@ -30,11 +30,16 @@ const toolsCache: Map<string, CachedTools> = new Map();
 /**
  * Ensures URLs are absolute when running in Node.js serverless functions.
  */
-function getAbsoluteUrl(url: string): string {
+function getAbsoluteUrl(url: string, requestOrigin?: string): string {
   if (url.startsWith('http')) return url;
   
   // Browser context
   if (typeof window !== 'undefined') return url;
+  
+  // Use explicitly passed origin if available
+  if (requestOrigin) {
+    return `${requestOrigin}${url}`;
+  }
   
   // Server context (Vercel)
   if (process.env.VERCEL_URL) {
@@ -49,10 +54,11 @@ function getAbsoluteUrl(url: string): string {
  * Check health status of an MCP server.
  */
 export async function checkServerHealth(
-  server: MCPServerConfig
+  server: MCPServerConfig,
+  origin?: string
 ): Promise<ServerStatus> {
   try {
-    const response = await fetch(getAbsoluteUrl(`${server.url}/health`), {
+    const response = await fetch(getAbsoluteUrl(`${server.url}/health`, origin), {
       signal: AbortSignal.timeout(3000),
     });
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
@@ -88,7 +94,8 @@ export async function checkAllServersHealth(): Promise<ServerStatus[]> {
  * Results are cached with a TTL to reduce network overhead.
  */
 export async function discoverTools(
-  server: MCPServerConfig
+  server: MCPServerConfig,
+  origin?: string
 ): Promise<MCPToolSchema[]> {
   // Check cache
   const cached = toolsCache.get(server.name);
@@ -97,7 +104,7 @@ export async function discoverTools(
   }
 
   try {
-    const response = await fetch(getAbsoluteUrl(`${server.url}/mcp/tools`), {
+    const response = await fetch(getAbsoluteUrl(`${server.url}/mcp/tools`, origin), {
       signal: AbortSignal.timeout(5000),
     });
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
@@ -121,7 +128,7 @@ export async function discoverTools(
  * Discover tools from ALL MCP servers in parallel.
  * Returns a map of server name → tools with server info attached.
  */
-export async function discoverAllTools(): Promise<
+export async function discoverAllTools(origin?: string): Promise<
   Map<string, { server: MCPServerConfig; tools: MCPToolSchema[] }>
 > {
   const results = new Map<
@@ -130,7 +137,7 @@ export async function discoverAllTools(): Promise<
   >();
 
   const promises = MCP_SERVERS.map(async (server) => {
-    const tools = await discoverTools(server);
+    const tools = await discoverTools(server, origin);
     results.set(server.name, { server, tools });
   });
 
@@ -144,10 +151,11 @@ export async function discoverAllTools(): Promise<
 export async function executeTool(
   server: MCPServerConfig,
   toolName: string,
-  parameters: Record<string, unknown>
+  parameters: Record<string, unknown>,
+  origin?: string
 ): Promise<MCPExecuteResponse> {
   try {
-    const response = await fetch(getAbsoluteUrl(`${server.url}/mcp/execute`), {
+    const response = await fetch(getAbsoluteUrl(`${server.url}/mcp/execute`, origin), {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ tool: toolName, parameters }),
