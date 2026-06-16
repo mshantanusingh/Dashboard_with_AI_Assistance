@@ -1,0 +1,8 @@
+{
+  "rewrites": [
+    { "source": "/api/library/(.*)", "destination": "/api/library.py" },
+    { "source": "/api/cafeteria/(.*)", "destination": "/api/cafeteria.py" },
+    { "source": "/api/events/(.*)", "destination": "/api/events.py" },
+    { "source": "/api/academics/(.*)", "destination": "/api/academics.py" }
+  ]
+}
