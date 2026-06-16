@@ -28,13 +28,31 @@ const toolsCache: Map<string, CachedTools> = new Map();
 // ─── Core Functions ─────────────────────────────────────────────────────────
 
 /**
+ * Ensures URLs are absolute when running in Node.js serverless functions.
+ */
+function getAbsoluteUrl(url: string): string {
+  if (url.startsWith('http')) return url;
+  
+  // Browser context
+  if (typeof window !== 'undefined') return url;
+  
+  // Server context (Vercel)
+  if (process.env.VERCEL_URL) {
+    return `https://${process.env.VERCEL_URL}${url}`;
+  }
+  
+  // Server context (Local fallback)
+  return `http://localhost:3000${url}`;
+}
+
+/**
  * Check health status of an MCP server.
  */
 export async function checkServerHealth(
   server: MCPServerConfig
 ): Promise<ServerStatus> {
   try {
-    const response = await fetch(`${server.url}/health`, {
+    const response = await fetch(getAbsoluteUrl(`${server.url}/health`), {
       signal: AbortSignal.timeout(3000),
     });
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
@@ -79,7 +97,7 @@ export async function discoverTools(
   }
 
   try {
-    const response = await fetch(`${server.url}/mcp/tools`, {
+    const response = await fetch(getAbsoluteUrl(`${server.url}/mcp/tools`), {
       signal: AbortSignal.timeout(5000),
     });
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
@@ -129,7 +147,7 @@ export async function executeTool(
   parameters: Record<string, unknown>
 ): Promise<MCPExecuteResponse> {
   try {
-    const response = await fetch(`${server.url}/mcp/execute`, {
+    const response = await fetch(getAbsoluteUrl(`${server.url}/mcp/execute`), {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ tool: toolName, parameters }),
