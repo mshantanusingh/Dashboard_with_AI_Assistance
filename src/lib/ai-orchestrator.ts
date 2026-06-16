@@ -213,10 +213,24 @@ Guidelines:
   }
 
   // Step 5: Extract final text response
-  const textContent = response.candidates?.[0]?.content?.parts
-    ?.filter((p) => "text" in p)
-    ?.map((p) => p.text)
-    ?.join("\n") || "I couldn't process your request. Please try again.";
+  let textContent = "";
+  try {
+    textContent = response.text();
+  } catch (e) {
+    // If text() throws, try to extract manually or fallback
+    textContent = response.candidates?.[0]?.content?.parts
+      ?.filter((p) => "text" in p)
+      ?.map((p) => p.text)
+      ?.join("\n") || "";
+  }
+
+  if (!textContent) {
+    if (maxIterations <= 0) {
+      textContent = "I'm having trouble connecting to the campus systems right now (tool execution took too long or failed). Please try again later.";
+    } else {
+      textContent = "I couldn't process your request. Please try again.";
+    }
+  }
 
   return {
     message: textContent,

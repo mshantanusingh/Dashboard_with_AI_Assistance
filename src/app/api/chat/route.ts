@@ -34,7 +34,9 @@ export async function POST(request: NextRequest) {
     const conversationHistory = Array.isArray(history) ? history : [];
     
     // Extract base URL from the request for reliable server-side fetching
-    const origin = new URL(request.url).origin;
+    const host = request.headers.get("host") || "";
+    const protocol = request.headers.get("x-forwarded-proto") || "https";
+    const origin = host ? `${protocol}://${host}` : new URL(request.url).origin;
 
     const result = await orchestrateChat(message, conversationHistory, apiKey, persona, origin);
 
