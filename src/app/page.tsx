@@ -7,13 +7,13 @@ import { ServerStatusDisplay } from "@/components/dashboard/ServerStatusDisplay"
 
 export default function Home() {
   return (
-    <main className="min-h-screen px-8 py-10 max-w-7xl mx-auto relative z-10">
-      <div className="mb-10 animate-fade-in delay-100 flex justify-between items-end">
+    <main className="min-h-screen px-8 max-w-7xl mx-auto relative z-10">
+      <div className="mb-12 animate-fade-in delay-100 flex justify-between items-end">
         <div>
-          <h2 className="text-3xl font-semibold tracking-tight text-white mb-1">
+          <h2 className="text-3xl font-medium tracking-tight text-white mb-2">
             Good afternoon.
           </h2>
-          <p className="text-[var(--text-secondary)] text-sm font-medium">
+          <p className="text-neutral-400 text-sm font-medium">
             Here's your campus intelligence overview for today.
           </p>
         </div>

@@ -50,16 +50,16 @@ export function EventsCard() {
             const month = dateObj.toLocaleString('en-us', { month: 'short' }) || "MMM";
             
             return (
-              <div key={event.id} className="group flex gap-4 p-3 -mx-3 rounded-xl hover:bg-white/5 transition-colors cursor-pointer border border-transparent hover:border-white/5">
+              <div key={event.id} className="group flex gap-4 p-3 -mx-3 rounded-xl hover:bg-white/[0.02] transition-colors cursor-pointer border border-transparent hover:border-white/5">
                 {/* Date Block */}
-                <div className="flex flex-col items-center justify-center min-w-12 h-14 bg-gradient-to-b from-[var(--accent-emerald)] to-emerald-700 rounded-lg text-white shadow-lg shadow-emerald-500/20 group-hover:scale-105 transition-transform">
-                  <span className="text-xs font-bold uppercase tracking-widest opacity-80">{month}</span>
-                  <span className="text-xl font-black leading-none">{dayNum}</span>
+                <div className="flex flex-col items-center justify-center min-w-12 h-14 bg-white/[0.03] border border-white/5 rounded-lg transition-colors group-hover:bg-white/[0.06] group-hover:border-white/10">
+                  <span className="text-[10px] font-bold uppercase tracking-widest text-neutral-400">{month}</span>
+                  <span className="text-lg font-medium leading-none text-neutral-200 mt-0.5">{dayNum}</span>
                 </div>
                 
                 {/* Details */}
                 <div className="flex flex-col justify-center min-w-0 flex-1">
-                  <h4 className="text-sm font-semibold text-white/90 truncate group-hover:text-emerald-400 transition-colors mb-1">
+                  <h4 className="text-sm font-medium text-neutral-200 truncate group-hover:text-white transition-colors mb-1.5">
                     {event.title}
                   </h4>
                   <div className="flex flex-col gap-0.5 text-[11px] text-[var(--text-muted)]">

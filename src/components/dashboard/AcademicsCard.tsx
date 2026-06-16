@@ -42,25 +42,25 @@ export function AcademicsCard() {
         ) : error ? (
           <div className="text-sm text-[var(--accent-rose)]">Failed to load schedule</div>
         ) : data?.schedule && data.schedule.length > 0 ? (
-          <div className="relative pl-6 space-y-6 before:absolute before:inset-0 before:ml-[7px] before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-[var(--accent-cyan)] before:via-white/10 before:to-transparent">
+          <div className="relative pl-8 space-y-4 before:absolute before:inset-0 before:ml-[11px] before:-translate-x-px before:h-full before:w-0.5 before:bg-gradient-to-b before:from-neutral-700 before:via-neutral-800 before:to-transparent">
             {data.schedule.map((session, i) => {
               // Mock active state for the first item
               const isActive = i === 0;
               
               return (
-                <div key={i} className="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group">
+                <div key={i} className="relative flex flex-col group">
                   {/* Timeline Dot */}
-                  <div className={`absolute left-[-29px] w-4 h-4 rounded-full border-2 border-black flex items-center justify-center ${isActive ? 'bg-[var(--accent-cyan)] timeline-dot' : 'bg-white/20'}`}>
+                  <div className={`absolute left-[-33px] top-4 w-3 h-3 rounded-full border-[3px] border-[#0A0A0A] flex items-center justify-center ${isActive ? 'bg-cyan-500 shadow-[0_0_8px_rgba(6,182,212,0.6)]' : 'bg-neutral-600'}`}>
                   </div>
                   
                   {/* Content Card */}
-                  <div className={`w-full bg-white/5 hover:bg-white/10 transition-colors p-4 rounded-xl border ${isActive ? 'border-[var(--accent-cyan)]/30 shadow-[0_0_15px_rgba(6,182,212,0.15)]' : 'border-white/5'} flex flex-col sm:flex-row sm:items-center justify-between gap-4`}>
+                  <div className={`w-full bg-white/[0.02] hover:bg-white/[0.04] transition-colors p-4 rounded-xl border ${isActive ? 'border-cyan-500/30' : 'border-white/5'} flex flex-col sm:flex-row sm:items-center justify-between gap-4`}>
                     <div>
-                      <div className="flex items-center gap-2 mb-1">
-                        <span className={`text-[10px] font-bold tracking-widest uppercase ${isActive ? 'text-[var(--accent-cyan)]' : 'text-white/50'}`}>
+                      <div className="flex items-center gap-2 mb-1.5">
+                        <span className={`text-[10px] font-bold tracking-widest uppercase ${isActive ? 'text-cyan-400' : 'text-neutral-500'}`}>
                           {session.course_code}
                         </span>
-                        <span className="px-1.5 py-0.5 bg-white/10 rounded text-[9px] uppercase tracking-wider text-white/70">
+                        <span className="px-1.5 py-0.5 bg-white/5 rounded text-[9px] uppercase tracking-wider text-neutral-400">
                           {session.type}
                         </span>
                       </div>

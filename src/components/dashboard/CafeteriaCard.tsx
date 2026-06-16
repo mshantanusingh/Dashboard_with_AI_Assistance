@@ -65,15 +65,17 @@ export function CafeteriaCard() {
                 <span className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse" />
                 Served {meal.start_time} — {meal.end_time}
               </div>
-              <div className="flex flex-wrap gap-2">
+              <div className="flex flex-col gap-2">
                 {meal.items.map((item, i) => (
-                  <div key={i} className="flex items-center gap-2 bg-white/5 hover:bg-white/10 transition-colors px-3 py-1.5 rounded-full border border-white/10 shadow-sm cursor-default">
-                    {item.is_vegetarian ? (
-                      <span className="text-[10px] text-emerald-400">🥬</span>
-                    ) : (
-                      <span className="text-[10px] text-rose-400">🥩</span>
-                    )}
-                    <span className="text-sm font-medium text-white/90">{item.name}</span>
+                  <div key={i} className="flex items-center justify-between bg-white/[0.02] hover:bg-white/[0.04] transition-colors px-4 py-2.5 rounded-xl border border-white/5 shadow-sm">
+                    <span className="text-sm font-medium text-neutral-200">{item.name}</span>
+                    <div className="flex items-center">
+                      {item.is_vegetarian ? (
+                        <span className="text-[10px] px-2 py-0.5 rounded text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 font-medium uppercase tracking-wider">Veg</span>
+                      ) : (
+                        <span className="text-[10px] px-2 py-0.5 rounded text-rose-400 bg-rose-500/10 border border-rose-500/20 font-medium uppercase tracking-wider">Non-Veg</span>
+                      )}
+                    </div>
                   </div>
                 ))}
               </div>

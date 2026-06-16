@@ -22,22 +22,22 @@ export default function RootLayout({
       >
         <AmbientBackground />
         
-        <div className="relative min-h-screen pt-6">
-          <header className="fixed top-6 left-1/2 -translate-x-1/2 z-40 w-full px-4">
-            <div className="glass-card rounded-full px-6 py-3 flex items-center justify-between w-full max-w-2xl mx-auto shadow-2xl">
+        <div className="relative min-h-screen">
+          <header className="fixed top-0 left-0 right-0 z-40 w-full px-8 py-4 border-b border-white/5 bg-[#0A0A0A]/80 backdrop-blur-md">
+            <div className="max-w-7xl mx-auto flex items-center justify-between">
               <div className="flex items-center gap-3 animate-fade-in">
-                <div className="w-8 h-8 rounded-full bg-white flex items-center justify-center">
-                  <span className="text-sm font-bold text-black">C</span>
+                <div className="w-7 h-7 rounded bg-white flex items-center justify-center">
+                  <span className="text-xs font-bold text-black">C</span>
                 </div>
                 <div className="flex items-baseline gap-2">
                   <h1 className="text-sm font-semibold tracking-tight text-white">CampusAI</h1>
-                  <span className="text-[10px] text-[var(--text-muted)] font-medium uppercase tracking-widest hidden sm:inline-block">Unified Intelligence</span>
+                  <span className="text-[10px] text-neutral-500 font-medium uppercase tracking-widest hidden sm:inline-block">Unified Intelligence</span>
                 </div>
               </div>
             </div>
           </header>
 
-          <div className="pt-28 pb-12">
+          <div className="pt-24 pb-12">
             {children}
           </div>
         </div>
