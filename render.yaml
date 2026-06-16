@@ -1,0 +1,36 @@
+services:
+  # Library Server
+  - type: web
+    name: mcp-library
+    env: python
+    rootDir: mcp-servers/library
+    buildCommand: pip install -r requirements.txt
+    startCommand: python server.py
+    autoDeploy: true
+
+  # Cafeteria Server
+  - type: web
+    name: mcp-cafeteria
+    env: python
+    rootDir: mcp-servers/cafeteria
+    buildCommand: pip install -r requirements.txt
+    startCommand: python server.py
+    autoDeploy: true
+
+  # Events Server
+  - type: web
+    name: mcp-events
+    env: python
+    rootDir: mcp-servers/events
+    buildCommand: pip install -r requirements.txt
+    startCommand: python server.py
+    autoDeploy: true
+
+  # Academics Server
+  - type: web
+    name: mcp-academics
+    env: python
+    rootDir: mcp-servers/academics
+    buildCommand: pip install -r requirements.txt
+    startCommand: python server.py
+    autoDeploy: true

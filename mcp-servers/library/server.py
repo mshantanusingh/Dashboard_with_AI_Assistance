@@ -110,10 +110,12 @@ async def execute_mcp_tool(request: ToolExecutionRequest):
 
 if __name__ == "__main__":
     import uvicorn
+    import os
+    port = int(os.environ.get("PORT", 8001))
     uvicorn.run(
         "server:app",
         host="0.0.0.0",
-        port=8001,
+        port=port,
         reload=True,
         log_level="info",
     )
