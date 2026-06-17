@@ -59,7 +59,7 @@ export async function checkServerHealth(
 ): Promise<ServerStatus> {
   try {
     const response = await fetch(getAbsoluteUrl(`${server.url}/health`, origin), {
-      signal: AbortSignal.timeout(3000),
+      signal: AbortSignal.timeout(10000), // Increased to 10s for Render free tier cold starts
     });
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
     const data: MCPHealthResponse = await response.json();
@@ -105,7 +105,7 @@ export async function discoverTools(
 
   try {
     const response = await fetch(getAbsoluteUrl(`${server.url}/mcp/tools`, origin), {
-      signal: AbortSignal.timeout(5000),
+      signal: AbortSignal.timeout(10000), // Increased to 10s for Render free tier cold starts
     });
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
     const data: MCPToolsResponse = await response.json();
